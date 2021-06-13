@@ -1,0 +1,51 @@
+table {
+    width: 100%;
+    .matches-ctrl {
+        min-width: 400px;
+        ::ng-deep .mat-form-field-wrapper {
+            padding: 10px 0;
+        }
+    }
+}
+.autocomplete-text {
+    margin-right: 12px;
+    .meta {
+        opacity: 0.5;
+        font-size: 12px;
+    }
+}
+
+.no-recordings {
+    text-align: center;
+    .title {
+        font-size: 3em;
+        line-height: 3em;
+        padding-top: 15vh;
+        opacity: 0.25;
+        font-style: italic;
+    }
+    .icon {
+        font-size: 120px;
+        line-height: 120px;
+        width: 120px;
+        height: 120px;
+        margin: 50px;
+        opacity: 0.5;
+        animation: 0.8s shake infinite alternate;
+        &.first {
+            animation-delay: 0.3s;
+        }
+        &.second {
+            animation-delay: 0s;
+        }
+        &.third {
+            animation-delay: 0.6s;
+        }
+    }
+    .brand {
+        font-size: 4em;
+        line-height: 4em;
+        opacity: 0.5;
+        animation: 0.8s shake infinite alternate;
+    }
+}

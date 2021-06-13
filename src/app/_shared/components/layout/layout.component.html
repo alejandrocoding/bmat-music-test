@@ -1,0 +1,16 @@
+<div fxFill>
+    <mat-toolbar color="primary">
+        <h1 fxFlex="auto" class="font2">BMAT Music Interactive Matcher</h1>
+        <button mat-button [color]="rla1.isActive ? 'accent' : null" routerLink="/matcher" routerLinkActive="active"
+            #rla1="routerLinkActive">
+            MATCHER
+        </button>
+        <button mat-button [color]="rla2.isActive ? 'accent' : null" routerLink="/sound-recording"
+            routerLinkActive="active" #rla2="routerLinkActive">
+            SOUND RECORDING
+        </button>
+    </mat-toolbar>
+    <main>
+        <router-outlet></router-outlet>
+    </main>
+</div>

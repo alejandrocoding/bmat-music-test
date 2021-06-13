@@ -1,0 +1,84 @@
+<div fxLayout="row wrap" fxLayoutAlign="space-between" *ngIf="recordings.length; else noRecordings">
+    <div fxFlex="100">
+        <form [formGroup]="form">
+            <table mat-table [dataSource]="recordings" class="mat-elevation-z8">
+                <ng-container matColumnDef="artist">
+                    <th mat-header-cell *matHeaderCellDef> Artist </th>
+                    <td mat-cell *matCellDef="let element"> {{element.artist}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="title">
+                    <th mat-header-cell *matHeaderCellDef> Title </th>
+                    <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="isrc">
+                    <th mat-header-cell *matHeaderCellDef> ISRC </th>
+                    <td mat-cell *matCellDef="let element"> {{element.isrc}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="duration">
+                    <th mat-header-cell *matHeaderCellDef> Duration </th>
+                    <td mat-cell *matCellDef="let element"> {{element.duration}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="match_to" formArrayName="records">
+                    <th mat-header-cell *matHeaderCellDef> Match DB or New </th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                        <div fxFlex fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="25px">
+                            <mat-form-field class="matches-ctrl" appearance="outline" fxFlex="auto">
+                                <mat-label>
+                                    {{ (filteredList[i]?.length && !records.controls[i]?.dirty)
+                                    ? 'Choose from Auto-Match or Remove Auto-Match'
+                                    : 'Search on DB'
+                                    }}</mat-label>
+                                <input matInput [matAutocomplete]="auto" [formControlName]="i">
+                            </mat-form-field>
+                            <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayOpt">
+                                <mat-option *ngFor="let record of filteredList[i]" [value]="record">
+                                    <span class="autocomplete-text" *ngIf="record.title">
+                                        <small class="meta">title</small> {{ record.title }}
+                                    </span>
+                                    <span class="autocomplete-text" *ngIf="record.artist">
+                                        <small class="meta">artist</small> {{ record.artist }}
+                                    </span>
+                                    <span class="autocomplete-text" *ngIf="record.isrc">
+                                        <small class="meta">isrc</small> {{ record.isrc }}
+                                    </span>
+                                </mat-option>
+                            </mat-autocomplete>
+                            <button type="button" mat-icon-button color="warn" class="mat-elevation-z1"
+                                (click)="removeAutoMatch(i)" matTooltip="Remove Auto Matching" matTooltipShowDelay="500"
+                                *ngIf="(filteredList[i]?.length && !records.controls[i]?.dirty)">
+                                <mat-icon>clear</mat-icon>
+                            </button>
+                            <button type="button" mat-icon-button color="primary"
+                                (click)="save(records.controls[i]?.value, i)" [disabled]="!records.controls[i]?.valid"
+                                matTooltip="Save Sound Recording into DB" matTooltipShowDelay="1000">
+                                <mat-icon>save_alt</mat-icon>
+                            </button>
+                            <button type="button" mat-icon-button color="primary"
+                                (click)="add(records.controls[i]?.value, i)" [disabled]="records.controls[i]?.valid"
+                                matTooltip="New Sound Recording using current row data" matTooltipShowDelay="1000">
+                                <mat-icon>add</mat-icon>
+                            </button>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<ng-template #noRecordings>
+    <div class="no-recordings font2">
+        <p class="title">No more records available to match at the moment</p>
+        <mat-icon class="icon first" color="accent">headset</mat-icon>
+        <mat-icon class="icon second" color="primary">equalizer</mat-icon>
+        <mat-icon class="icon third" color="warn">audiotrack</mat-icon>
+        <p class="brand">-BMAT Music-</p>
+    </div>
+</ng-template>
